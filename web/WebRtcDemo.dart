@@ -11,15 +11,14 @@ void main() {
     video
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
-    ..onLoadedMetadata.listen((e) {
-      snow.start();
-    });
+    //..onLoadStart.listen((e) => print("Loading 1"))
+    ..onLoadedMetadata.listen((e) => snow.start());
   });
 
 }
 
 class Snow {
-  const int NUMBER_OF_FLAKE = 25;
+  const int NUMBER_OF_FLAKE = 50;
  
   final CanvasRenderingContext2D ctx;
   final int width;
@@ -36,10 +35,12 @@ class Snow {
   }
   
   _createFlake(){
-    var randomSize = _random.nextInt(5) + 2;
-    var randomX = _random.nextInt(width);
-    var randomY = _random.nextInt(heigth);      
-    flakes.add(new Flake(randomSize, randomSize, randomX, randomY));
+    var size = _random.nextInt(5) + 2;
+    var speedX = _random.nextInt(3);
+    var speedY = _random.nextInt(5) + 2;
+    var x = _random.nextInt(width);
+    var y = _random.nextInt(heigth);      
+    flakes.add(new Flake(x, y, size, speedX, speedY));
   }
   
   start() => window.requestAnimationFrame(_animate);
@@ -65,16 +66,17 @@ class Snow {
 
 class Flake {
   
-  final num speed;
   final num size;
+  final num speedX;
+  final num speedY;
   num x;
   num y;
   
-  Flake(this.speed, this.size, this.x, this.y);
+  Flake(this.x, this.y, this.size, this.speedX, this.speedY);
   
   updatePosition(){
-    this.x += speed;
-    this.y += speed;   
+    this.x += speedX;
+    this.y += speedY;   
   }
   
   draw(CanvasRenderingContext2D ctx){
