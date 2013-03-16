@@ -1,5 +1,5 @@
-name: WebRtcDemo
-description: A sample application
+name: it_snow
+description: 'A Web RTC demo : it snow'
 dependencies:
   browser: any
 
