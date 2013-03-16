@@ -25,3 +25,19 @@ p {
   text-align: center;
   margin-top: 140px;
 }
+
+#canvas-snow {
+  position: absolute;  
+}
+
+#webcam {
+  /*display: none;*/
+  position: absolute;  
+}
+
+#content {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+ 
