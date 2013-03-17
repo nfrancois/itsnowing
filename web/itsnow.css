@@ -2,6 +2,13 @@
   position: absolute;  
 }
 
-.invisible {
-  display: none;  
+.content {
+  height: 480px;
+}
+
+#github {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
 }

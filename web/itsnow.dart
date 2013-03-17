@@ -6,7 +6,7 @@ void main() {
   CanvasElement canvas = query("#canvas-snow");
   CanvasRenderingContext2D ctx = canvas.getContext("2d");
   InputElement flakesRange =  query("#flakesRange");
-  var snowView = query("#snowView");
+  var content = query("#content");
   var acceptVideo = query("#acceptVideo");
   var snow = new Snow(ctx, canvas.width, canvas.height, int.parse(flakesRange.value));
   flakesRange.onChange.listen((e) => snow.numberOfFlake = int.parse(flakesRange.value));
@@ -18,7 +18,7 @@ void main() {
     ..src = Url.createObjectUrl(stream)
     ..onLoadedMetadata.listen((e) {
       acceptVideo.classes.add("invisible");
-      snowView.classes.remove("invisible");
+      content.classes.remove("invisible");
       snow.start();
     });
   });
