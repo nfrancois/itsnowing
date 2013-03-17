@@ -9,13 +9,17 @@
   <body>
     <h1>It snow !!!</h1>
     
-     <input id="flakesRange" type="range" min="25" max="250" value="50">
-    <div id="content">
-	    <video id="webcam" class="snow-view" width="640" height="480"></video>
-	    <canvas id="canvas-snow" class="snow-view" width="640" height="480"></canvas>
-    </div> 
-  
-      <script type="application/dart" src="itsnow.dart"></script>
-      <script src="packages/browser/dart.js"></script>
+    <div id="acceptVideo">
+      Please allow access to your camera!
+    </div>  
+    <div  id="snowView" class="invisible">
+      <input id="flakesRange" type="range" min="25" max="250" value="50">
+      <div>
+  	    <video id="webcam" class="snow-view" width="640" height="480"></video>
+  	    <canvas id="canvas-snow" class="snow-view" width="640" height="480"></canvas>
+      </div>
+    </div>
+    <script type="application/dart" src="itsnow.dart"></script>
+    <script src="packages/browser/dart.js"></script>
   </body>
 </html>

@@ -1,3 +1,7 @@
 .snow-view {
   position: absolute;  
 }
+
+.invisible {
+  display: none;  
+}
