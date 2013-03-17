@@ -1,5 +1,5 @@
-name: it_snow
-description: 'A Web RTC demo : it snow'
+name: it_snowing
+description: 'A Web RTC demo'
 dependencies:
   browser: any
 
