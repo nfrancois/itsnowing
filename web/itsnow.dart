@@ -3,10 +3,13 @@ import 'dart:math';
 
 
 void main() {
-  CanvasElement canvas = document.query("#canvas-snow");
+  CanvasElement canvas = query("#canvas-snow");
   CanvasRenderingContext2D ctx = canvas.getContext("2d");
-  var snow = new Snow(ctx, canvas.width, canvas.height);
+  InputElement flakesRange =  query("#flakesRange");
+  var snow = new Snow(ctx, canvas.width, canvas.height, int.parse(flakesRange.value));
+  flakesRange.onChange.listen((e) => snow.numberOfFlake = int.parse(flakesRange.value));
   var video = query('#webcam') as VideoElement;
+  
   window.navigator.getUserMedia(video: true).then((stream) {
     video
     ..autoplay = true
@@ -18,8 +21,8 @@ void main() {
 }
 
 class Snow {
-  const int NUMBER_OF_FLAKE = 50;
  
+  int numberOfFlake = 50;
   final CanvasRenderingContext2D ctx;
   final int width;
   final int heigth;
@@ -27,9 +30,9 @@ class Snow {
   final List<Flake> flakes;
   Random _random;
   
-  Snow(this.ctx, this.width, this.heigth) : flakes = [] {
+  Snow(this.ctx, this.width, this.heigth, this.numberOfFlake) : flakes = [] {
     _random = new Random();
-    for(int i=0; i<NUMBER_OF_FLAKE; i++){
+    for(int i=0; i<numberOfFlake; i++){
       _createFlake();
     }
   }
@@ -58,7 +61,7 @@ class Snow {
     }
     // Remove unvisible flakes and recreate new
     flakes.removeMatching((Flake flake)  => flake.y > heigth || flake.y > heigth);
-    for(int i=0; i<NUMBER_OF_FLAKE-flakes.length; i++){
+    for(int i=0; i<numberOfFlake-flakes.length; i++){
       _createFlake();
     }
   }
