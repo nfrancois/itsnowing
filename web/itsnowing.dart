@@ -20,7 +20,8 @@ void main() {
     }
     
     CanvasRenderingContext2D photoContext = photoBuffer.getContext("2d");
-    photoContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+    photoContext.drawImage(video, 0, 0, video.width, video.height);
+    photoContext.drawImage(canvas, 0, 0, canvas.width, canvas.height);
     var data = photoBuffer.toDataUrl("image/png");
     ImageElement photo = new Element.tag("img");
     photoContent.append(photo);
