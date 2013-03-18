@@ -32,11 +32,13 @@ void main() {
   var snow = new Snow(canvas.getContext("2d"), canvas.width, canvas.height, int.parse(flakesRange.value));
   flakesRange.onChange.listen((e) => snow.numberOfFlake = int.parse(flakesRange.value));
   
-  window.navigator.getUserMedia(video: true).then((stream) {
+  window.navigator.getUserMedia(video: true)
+  ..catchError((e) => _displayError("Unable to access the camera. Did you have one ?"))
+  ..then((stream) {
     video
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
-    ..onError.listen((e) => window.alert("e"))
+    ..onError.listen((e) => _displayError("Your computer"))
     ..onLoadedMetadata.listen((e) {
       acceptVideo.classes.add("invisible");
       content.classes.remove("invisible");
@@ -44,6 +46,12 @@ void main() {
     });
   });
 
+}
+
+_displayError(String message){
+  query("#acceptVideo")..classes.add("invisible");
+  query("#error")..innerHtml= message
+                 ..classes.remove("invisible");
 }
 
 class Snow {
