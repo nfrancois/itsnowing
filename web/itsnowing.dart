@@ -13,37 +13,18 @@ void main() {
   var content = query("#content");
   var acceptVideo = query("#acceptVideo");
   
-  takePhoto.onClick.listen((e) {
-    var previousImage = photoContent.query("img");
-    if(previousImage != null){
-      previousImage.remove();
-    }
-    
-    CanvasRenderingContext2D photoContext = photoBuffer.getContext("2d");
-    photoContext.drawImage(video, 0, 0, video.width, video.height);
-    photoContext.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-    var data = photoBuffer.toDataUrl("image/png");
-    ImageElement photo = new Element.tag("img");
-    photoContent.append(photo);
-    photo..height = canvas.height~/2
-         ..width = canvas.width~/2
-         ..src = data;
-  });
+  takePhoto.onClick.listen((e) => _takePhoto(video, canvas, photoBuffer, photoContent));
   var snow = new Snow(canvas.getContext("2d"), canvas.width, canvas.height, int.parse(flakesRange.value));
   flakesRange.onChange.listen((e) => snow.numberOfFlake = int.parse(flakesRange.value));
   
   window.navigator.getUserMedia(video: true)
   ..catchError((e) => _displayError("Unable to access the camera. Did you have one ?"))
-  ..then((stream) {
+  ..then((LocalMediaStream stream) {
     video
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
     //..onError.listen((e) => _displayError("Your computer"))
-    ..onLoadedMetadata.listen((e) {
-      acceptVideo.classes.add("hide");
-      content.classes.remove("hide");
-      snow.start();
-    });
+    ..onLoadedMetadata.listen((e) => _start(acceptVideo, content, snow));
   });
 
 }
@@ -52,6 +33,31 @@ _displayError(String message){
   query("#acceptVideo")..classes.add("hide");
   query("#error")..innerHtml= message
                  ..classes.remove("hide");
+}
+
+_takePhoto(VideoElement video, CanvasElement canvas, CanvasElement photoBuffer, Element photoContent){
+  // remove previous if exist
+  var previousImage = photoContent.query("img");
+  if(previousImage != null){
+    previousImage.remove();
+  }
+  // Create photo un buffer
+  CanvasRenderingContext2D photoContext = photoBuffer.getContext("2d");
+  photoContext.drawImage(video, 0, 0, video.width, video.height);
+  photoContext.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+  var data = photoBuffer.toDataUrl("image/png");
+  // Output in new image
+  ImageElement photo = new Element.tag("img");
+  photoContent.append(photo);
+  photo..height = canvas.height~/2
+      ..width = canvas.width~/2
+      ..src = data;  
+}
+
+_start(Element acceptVideo, Element content, Snow snow){
+  acceptVideo.classes.add("hide");
+  content.classes.remove("hide");
+  snow.start();  
 }
 
 class Snow {
@@ -72,6 +78,7 @@ class Snow {
   }
   
   _createFlake(){
+    // Create flake with random properties
     var size = _random.nextInt(5) + 2;
     var speedX = _random.nextInt(3);
     var speedY = _random.nextInt(5) + 2;
