@@ -38,10 +38,10 @@ void main() {
     video
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
-    ..onError.listen((e) => _displayError("Your computer"))
+    //..onError.listen((e) => _displayError("Your computer"))
     ..onLoadedMetadata.listen((e) {
-      acceptVideo.classes.add("invisible");
-      content.classes.remove("invisible");
+      acceptVideo.classes.add("hide");
+      content.classes.remove("hide");
       snow.start();
     });
   });
@@ -49,9 +49,9 @@ void main() {
 }
 
 _displayError(String message){
-  query("#acceptVideo")..classes.add("invisible");
+  query("#acceptVideo")..classes.add("hide");
   query("#error")..innerHtml= message
-                 ..classes.remove("invisible");
+                 ..classes.remove("hide");
 }
 
 class Snow {
