@@ -12,6 +12,7 @@ void main() {
   var photoContent = query("#photoContent");
   var content = query("#content");
   var acceptVideo = query("#acceptVideo");
+  var versionInfo = query("#versionInfo");
   
   takePhoto.onClick.listen((e) => _takePhoto(video, canvas, photoBuffer, photoContent));
   var snow = new Snow(canvas.getContext("2d"), canvas.width, canvas.height, int.parse(flakesRange.value));
@@ -24,7 +25,7 @@ void main() {
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
     //..onError.listen((e) => _displayError("Your computer"))
-    ..onLoadedMetadata.listen((e) => _start(acceptVideo, content, snow));
+    ..onLoadedMetadata.listen((e) => _start(versionInfo, acceptVideo, content, snow));
   });
 
 }
@@ -54,7 +55,8 @@ _takePhoto(VideoElement video, CanvasElement canvas, CanvasElement photoBuffer, 
       ..src = data;  
 }
 
-_start(Element acceptVideo, Element content, Snow snow){
+_start(Element versionInfo, Element acceptVideo, Element content, Snow snow){
+  versionInfo.classes.add("hide");
   acceptVideo.classes.add("hide");
   content.classes.remove("hide");
   snow.start();  
