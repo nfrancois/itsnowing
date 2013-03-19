@@ -15,7 +15,7 @@ void main() {
   var versionInfo = query("#versionInfo");
   
   takePhoto.onClick.listen((e) => _takePhoto(video, canvas, photoBuffer, photoContent));
-  var snow = new Snow(canvas.getContext("2d"), canvas.width, canvas.height, int.parse(flakesRange.value));
+  var snow = new Snow(canvas.context2d, canvas.width, canvas.height, int.parse(flakesRange.value));
   flakesRange.onChange.listen((e) => snow.numberOfFlake = int.parse(flakesRange.value));
   
   window.navigator.getUserMedia(video: true)
@@ -43,9 +43,9 @@ _takePhoto(VideoElement video, CanvasElement canvas, CanvasElement photoBuffer, 
     previousImage.remove();
   }
   // Create photo un buffer
-  CanvasRenderingContext2D photoContext = photoBuffer.getContext("2d");
-  photoContext.drawImage(video, 0, 0, video.width, video.height);
-  photoContext.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+  CanvasRenderingContext2D photoContext = photoBuffer.context2d;
+  photoContext.drawImage(video, 0, 0);
+  photoContext.drawImage(canvas, 0, 0);
   var data = photoBuffer.toDataUrl("image/png");
   // Output in new image
   ImageElement photo = new Element.tag("img");
@@ -103,7 +103,7 @@ class Snow {
            ..updatePosition();
     }
     // Remove unvisible flakes and recreate new
-    flakes.removeMatching((Flake flake)  => flake.y > heigth || flake.y > heigth);
+    flakes.removeWhere((Flake flake)  => flake.y > heigth || flake.y > heigth);
     for(int i=0; i<numberOfFlake-flakes.length; i++){
       _createFlake();
     }
