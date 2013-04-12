@@ -24,7 +24,6 @@ void main() {
     video
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
-    //..onError.listen((e) => _displayError("Your computer"))
     ..onLoadedMetadata.listen((e) => _start(versionInfo, acceptVideo, content, snow));
   });
 
@@ -51,8 +50,8 @@ _takePhoto(VideoElement video, CanvasElement canvas, CanvasElement photoBuffer, 
   ImageElement photo = new Element.tag("img");
   photoContent.append(photo);
   photo..height = canvas.height~/2
-      ..width = canvas.width~/2
-      ..src = data;  
+       ..width = canvas.width~/2
+       ..src = data;  
 }
 
 _start(Element versionInfo, Element acceptVideo, Element content, Snow snow){
@@ -89,11 +88,11 @@ class Snow {
     flakes.add(new Flake(x, y, size, speedX, speedY));
   }
   
-  start() => window.requestAnimationFrame(_animate);
+  start() => window.animationFrame.then(_animate);
   
   _animate(num time){
     draw();
-    window.requestAnimationFrame(_animate);    
+    window.animationFrame.then(_animate);    
   }
   
   draw(){
