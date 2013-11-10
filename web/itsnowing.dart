@@ -3,24 +3,24 @@ import 'dart:math';
 
 
 void main() {
-  CanvasElement canvas = query("#canvasSnow");
-  InputElement flakesRange =  query("#flakesRange");
-  ButtonElement takePhoto = query("#takePhoto");
-  VideoElement video = query('#webcam');
-  CanvasElement photoBuffer = query("#photoBuffer");
+  CanvasElement canvas = querySelector("#canvasSnow");
+  InputElement flakesRange =  querySelector("#flakesRange");
+  ButtonElement takePhoto = querySelector("#takePhoto");
+  VideoElement video = querySelector('#webcam');
+  CanvasElement photoBuffer = querySelector("#photoBuffer");
   
-  var photoContent = query("#photoContent");
-  var content = query("#content");
-  var acceptVideo = query("#acceptVideo");
-  var versionInfo = query("#versionInfo");
+  var photoContent = querySelector("#photoContent");
+  var content = querySelector("#content");
+  var acceptVideo = querySelector("#acceptVideo");
+  var versionInfo = querySelector("#versionInfo");
   
   takePhoto.onClick.listen((e) => _takePhoto(video, canvas, photoBuffer, photoContent));
-  var snow = new Snow(canvas.context2d, canvas.width, canvas.height, int.parse(flakesRange.value));
+  var snow = new Snow(canvas.context2D, canvas.width, canvas.height, int.parse(flakesRange.value));
   flakesRange.onChange.listen((e) => snow.numberOfFlake = int.parse(flakesRange.value));
   
   window.navigator.getUserMedia(video: true)
   ..catchError((e) => _displayError("Unable to access the camera. Did you have one ?"))
-  ..then((LocalMediaStream stream) {
+  ..then((MediaStream stream) {
     video
     ..autoplay = true
     ..src = Url.createObjectUrl(stream)
@@ -30,19 +30,19 @@ void main() {
 }
 
 _displayError(String message){
-  query("#acceptVideo")..classes.add("hide");
-  query("#error")..innerHtml= message
+  querySelector("#acceptVideo")..classes.add("hide");
+  querySelector("#error")..innerHtml= message
                  ..classes.remove("hide");
 }
 
 _takePhoto(VideoElement video, CanvasElement canvas, CanvasElement photoBuffer, Element photoContent){
   // remove previous if exist
-  var previousImage = photoContent.query("img");
+  var previousImage = photoContent.querySelector("img");
   if(previousImage != null){
     previousImage.remove();
   }
   // Create photo un buffer
-  CanvasRenderingContext2D photoContext = photoBuffer.context2d;
+  CanvasRenderingContext2D photoContext = photoBuffer.context2D;
   photoContext.drawImage(video, 0, 0);
   photoContext.drawImage(canvas, 0, 0);
   var data = photoBuffer.toDataUrl("image/png");
