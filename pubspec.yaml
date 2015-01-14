@@ -1,8 +1,0 @@
-name: it_snowing
-description: 'A Web RTC demo'
-dependencies:
-  browser: any
-
-#dependencies:
-#  js: any
-#  unittest: { sdk: unittest }
